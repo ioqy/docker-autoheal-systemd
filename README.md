@@ -1,4 +1,4 @@
-# Automatically restart unhealthy docker containers.
+# Automatically restart unhealthy docker containers
 
 The systemd unit checks every 30 seconds for unhealthy docker containers and restarts them.
 
