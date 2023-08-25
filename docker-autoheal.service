@@ -1,0 +1,17 @@
+[Unit]
+Description=Restart unhealthy docker container
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=simple
+
+Restart=on-failure
+RestartSec=60
+
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+ExecStart=sh -c "while true; do (docker ps --all --filter 'health=unhealthy' --format '{{.Names}}' | xargs --no-run-if-empty docker restart); sleep 30; done"
+
+[Install]
+WantedBy=docker.service
