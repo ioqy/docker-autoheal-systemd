@@ -11,7 +11,7 @@ Edit the file `/etc/systemd/system/docker-autoheal.service` and change the value
 ## Install
 
 ```sh
-sudo curl -fsSL --output /etc/systemd/system/docker-autoheal.service https://raw.githubusercontent.com/ioqy/docker-autoheal-systemd/master/docker-autoheal.service
+sudo wget --quiet --output-document /etc/systemd/system/docker-autoheal.service https://raw.githubusercontent.com/ioqy/docker-autoheal-systemd/master/docker-autoheal.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now docker-autoheal.service
 ```
