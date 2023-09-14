@@ -12,9 +12,10 @@ RestartSec=60
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Monitor interval in seconds
-Environment="AUTOHEAL_INTERVAL=5"
+Environment="AUTOHEAL_INTERVAL_SECONDS=5"
+EnvironmentFile=-/etc/docker-autoheal.env
 
-ExecStart=sh -c "while true; do (docker ps --filter 'health=unhealthy' --format '{{.Names}}' | xargs --no-run-if-empty docker restart); (sleep $AUTOHEAL_INTERVAL); done"
+ExecStart=sh -c "while true; do (docker ps --filter 'health=unhealthy' --format '{{.Names}}' | xargs --no-run-if-empty docker restart); (sleep $AUTOHEAL_INTERVAL_SECONDS); done"
 
 [Install]
 WantedBy=docker.service

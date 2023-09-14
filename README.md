@@ -6,7 +6,9 @@ Based on the idea of to https://github.com/willfarrell/docker-autoheal. But simp
 
 ## Changing the monitoring interval
 
-Edit the file `/etc/systemd/system/docker-autoheal.service` and change the value of the environment variable `AUTOHEAL_INTERVAL`.
+Create the file `/etc/docker-autoheal.env` and add a line with `AUTOHEAL_INTERVAL_SECONDS=30`, where `30` is the number of seconds you want as an interval.
+
+Afterwards restart the service with the command `systemctl restart docker-autoheal.service`.
 
 ## Install
 
