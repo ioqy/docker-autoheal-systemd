@@ -6,16 +6,35 @@ Wants=docker.service
 [Service]
 Type=simple
 
+# Security hardening
+CapabilityBoundingSet=
+DevicePolicy=closed
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=read-only
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectProc=invisible
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+
 Restart=on-failure
 RestartSec=60
 
-Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecSearchPath=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# Monitor interval in seconds
-Environment="AUTOHEAL_INTERVAL_SECONDS=5"
+Environment="autoheal_interval_seconds=5"
 EnvironmentFile=-/etc/docker-autoheal.env
 
-ExecStart=sh -c "while true; do (docker ps --filter 'health=unhealthy' --format '{{.Names}}' | xargs --no-run-if-empty docker restart); (sleep $AUTOHEAL_INTERVAL_SECONDS); done"
+ExecStart=sh -c "while true; do docker ps --filter 'health=unhealthy' --format '{{.Names}}' | xargs --no-run-if-empty docker restart; sleep $autoheal_interval_seconds; done"
 
 [Install]
 WantedBy=docker.service
